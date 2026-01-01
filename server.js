@@ -17,9 +17,9 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 
-app.get('/',(req,res)=>{
-return res.json({message:"Welocome to Expense Tracker App"})
-}
+app.get('/', (req, res) => {
+  return res.json({ message: "Welocome to Expense Tracker App" })
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expenses')
