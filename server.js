@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
   return res.json({ message: "Welocome to Start Photography App" })
 });
 
+app.get("/error", (req, res) => {
+  process.exit(1);
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expenses')
   .then(() => console.log('Connected to MongoDB'))
