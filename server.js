@@ -30,6 +30,21 @@ app.post("/github/webhook", (req, res) => {
 
  console.log("Headers:", req.headers);
  console.log("Body:", req.body);
+ 
+ const githubSignature = req.headers['x-hub-signature'];
+
+  if (!githubSignature) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  const hmac = crypto.createHmac('sha1', process.env.GITHUB_WEBHOOK_SECRET);
+  hmac.update(JSON.stringify(req.body));
+  const calculatedSignature = hmac.digest('hex'); 
+
+  if (calculatedSignature !== githubSignature) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
   const child = spawn('bash', ['/home/ubuntu/deploy-frontend.sh']);
 
 
@@ -43,7 +58,7 @@ app.post("/github/webhook", (req, res) => {
   });
 
   child.on('close', (code) => {
-    res.json({ message: "Ok" });
+ 
 
     if (code === 0) {
       console.log('Script executed successfully');
@@ -53,7 +68,7 @@ app.post("/github/webhook", (req, res) => {
   });
 
   child.on('error', (error) => {
-    res.json({ message: "Ok" });
+ 
     console.log("Error in spawning the script");
     console.error('Error executing script:', error);
   });
