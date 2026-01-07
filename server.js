@@ -41,9 +41,10 @@ app.post("/github/webhook", (req, res) => {
 
   const hmac = crypto.createHmac('sha256', "Ammu@123");
   hmac.update(JSON.stringify(req.body));
-  const calculatedSignature = hmac.digest('hex'); 
+  const calculatedSignature = hmac.digest('hex');
+  const signature = githubSignature.replace('sha256=', '');
 
-  if (calculatedSignature !== githubSignature) {
+  if (calculatedSignature !== signature) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   res.json({ message: 'Ok' });
