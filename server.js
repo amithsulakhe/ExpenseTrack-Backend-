@@ -32,7 +32,7 @@ app.post("/github/webhook", (req, res) => {
  console.log("Headers:", req.headers);
  console.log("Body:", req.body);
  
- const githubSignature = req.headers['x-hub-signature'];
+ const githubSignature = req.headers['x-hub-signature-256'];
  console.log("Github Signature:", githubSignature);
 
   if (!githubSignature) {
