@@ -26,9 +26,10 @@ app.get("/error", (req, res) => {
   process.exit(1);
 });
 
-app.get("/github/webhook", (req, res) => {
+app.post("/github/webhook", (req, res) => {
 
-
+ console.log("Headers:", req.headers);
+ console.log("Body:", req.body);
   const child = spawn('bash', ['/home/ubuntu/deploy-frontend.sh']);
 
 
