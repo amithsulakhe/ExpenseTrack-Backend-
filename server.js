@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import expenseRoutes from './routes/expenses.js';
 import { spawn } from 'child_process';
+import crypto from 'crypto';
 
 dotenv.config();
 
@@ -32,18 +33,20 @@ app.post("/github/webhook", (req, res) => {
  console.log("Body:", req.body);
  
  const githubSignature = req.headers['x-hub-signature'];
+ console.log("Github Signature:", githubSignature);
 
   if (!githubSignature) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
 
-  const hmac = crypto.createHmac('sha1', process.env.GITHUB_WEBHOOK_SECRET);
+  const hmac = crypto.createHmac('sha256', process.env.GITHUB_WEBHOOK_SECRET);
   hmac.update(JSON.stringify(req.body));
   const calculatedSignature = hmac.digest('hex'); 
 
   if (calculatedSignature !== githubSignature) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
+  res.json({ message: 'Ok' });
 
   const child = spawn('bash', ['/home/ubuntu/deploy-frontend.sh']);
 
