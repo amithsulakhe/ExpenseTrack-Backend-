@@ -99,4 +99,8 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/expenses'
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
+  // Signal PM2 that the process is ready
+  if (process.send) {
+    process.send('ready');
+  }
 });
