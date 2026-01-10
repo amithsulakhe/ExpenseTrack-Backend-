@@ -47,8 +47,16 @@ app.post("/github/webhook", (req, res) => {
   if (calculatedSignature !== signature) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
+  let repository = "";
 
-  const repository = req.body.repository.name === "ExpenseTrack-Backend-" ? "backend" : "frontend";
+  if (req.body.repository.name === "ExpenseTrack-Backend-") {
+    repository = "backend";
+  } else if (req.body.repository.name === "ExpenseTrack-Frontend-") {
+    repository = "frontend";
+  } else {
+    return res.status(400).json({ message: 'Invalid repository' });
+  }
+
   console.log("Repository:", repository);
 
 
