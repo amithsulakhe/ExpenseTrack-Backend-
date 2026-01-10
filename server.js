@@ -49,6 +49,7 @@ app.post("/github/webhook", (req, res) => {
   }
 
   const repository = req.body.repository.name === "ExpenseTrack-Backend-" ? "backend" : "frontend";
+  console.log("Repository:", repository);
   res.json({ message: 'Ok' });
 
   const child = spawn('bash', [`/home/ubuntu/deploy-${repository}.sh`]);
