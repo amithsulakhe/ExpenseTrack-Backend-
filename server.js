@@ -29,11 +29,11 @@ app.get("/error", (req, res) => {
 
 app.post("/github/webhook", (req, res) => {
 
-  console.log("Headers:", req.headers);
-  console.log("Body:", req.body);
+  // console.log("Headers:", req.headers);
+  // console.log("Body:", req.body);
 
   const githubSignature = req.headers['x-hub-signature-256'];
-  console.log("Github Signature:", githubSignature);
+  // console.log("Github Signature:", githubSignature);
 
   if (!githubSignature) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -50,7 +50,7 @@ app.post("/github/webhook", (req, res) => {
 
   const repository = req.body.repository.name === "ExpenseTrack-Backend-" ? "backend" : "frontend";
   console.log("Repository:", repository);
-  
+
 
 
   res.json({ message: 'Ok' });
