@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 
 app.get('/', (req, res) => {
-  return res.json({ message: "Welocome to Start Photography Web App" })
+  return res.json({ message: "Welocome to Start  Web App" })
 });
 
 app.get("/error", (req, res) => {
