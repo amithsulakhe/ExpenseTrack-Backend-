@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 
 app.get('/', (req, res) => {
-  return res.json({ message: "Welocome to Start Photography web App" })
+  return res.json({ message: "Welocome to Start Photography App" })
 });
 
 app.get("/error", (req, res) => {
@@ -29,11 +29,11 @@ app.get("/error", (req, res) => {
 
 app.post("/github/webhook", (req, res) => {
 
- console.log("Headers:", req.headers);
- console.log("Body:", req.body);
- 
- const githubSignature = req.headers['x-hub-signature-256'];
- console.log("Github Signature:", githubSignature);
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
+
+  const githubSignature = req.headers['x-hub-signature-256'];
+  console.log("Github Signature:", githubSignature);
 
   if (!githubSignature) {
     return res.status(401).json({ message: 'Unauthorized' });
@@ -47,10 +47,11 @@ app.post("/github/webhook", (req, res) => {
   if (calculatedSignature !== signature) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
+
+  const repository = req.body.repository.name === "ExpenseTrack-Backend-" ? "backend" : "frontend";
   res.json({ message: 'Ok' });
 
-  const child = spawn('bash', ['/home/ubuntu/deploy-frontend.sh']);
-
+  const child = spawn('bash', [`/home/ubuntu/deploy-${repository}.sh`]);
 
 
   child.stdout.on('data', (data) => {
@@ -62,7 +63,7 @@ app.post("/github/webhook", (req, res) => {
   });
 
   child.on('close', (code) => {
- 
+
 
     if (code === 0) {
       console.log('Script executed successfully');
@@ -72,7 +73,7 @@ app.post("/github/webhook", (req, res) => {
   });
 
   child.on('error', (error) => {
- 
+
     console.log("Error in spawning the script");
     console.error('Error executing script:', error);
   });
