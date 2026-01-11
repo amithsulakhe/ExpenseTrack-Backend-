@@ -20,7 +20,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/expenses', expenseRoutes);
 
 app.get('/', (req, res) => {
-  return res.json({ message: "Welocome to Start Web App" })
+  return res.json({ message: "Welocome to ExpenseTrack Backend" })
 });
 
 app.get("/error", (req, res) => {
