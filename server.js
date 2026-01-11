@@ -51,7 +51,7 @@ app.post("/github/webhook", (req, res) => {
 
   if (req.body.repository.name === "ExpenseTrack-Backend-") {
     repository = "backend";
-  } else if (req.body.repository.name === "ExpenseTrack-Frontend-") {
+  } else if (req.body.repository.name === "ExpenseTrack-Front-end-React-Js-") {
     repository = "frontend";
   } else {
     return res.status(400).json({ message: 'Invalid repository' });
