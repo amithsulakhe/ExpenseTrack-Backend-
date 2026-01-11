@@ -5,12 +5,12 @@ on: [push, workflow_dispatch]
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     env:
-        AWS_HOST: 15.206.90.12
-        AWS_USER: ubuntu
+      AWS_HOST: 15.206.90.12
+      AWS_USER: ubuntu
 
     steps:
-
       - name: Install SSH key
         uses: webfactory/ssh-agent@v0.9.0
         with:
@@ -18,11 +18,11 @@ jobs:
 
       - name: Add Host Key
         run: |
-          ssh-keyscan -H ${{ env.AWS_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H $AWS_HOST >> ~/.ssh/known_hosts
 
       - name: Deploy and Restart Backend
         run: |
-          ssh ${env.AWS_USER}@${env.AWS_HOST} << 'EOF'
+          ssh $AWS_USER@$AWS_HOST << 'EOF'
           cd /home/ubuntu/ExpenseTrack-Backend-
           git pull origin main
           npm ci
